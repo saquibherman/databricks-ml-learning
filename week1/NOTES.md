@@ -1,8 +1,6 @@
 # Week 1 Notes: Machine Learning Model Deployment
 
 My own notes from the Databricks Academy course *Machine Learning Model Deployment*.
-The course notebooks themselves are not in this repo (Databricks copyright); get them from
-[Databricks Academy](https://www.databricks.com/learn/training) and place them in this folder.
 
 ## Deployment strategies
 

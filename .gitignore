@@ -1,8 +1,3 @@
-# Databricks Academy course material (copyrighted, not redistributable).
-# Only my own notes per week are published.
-week*/*
-!week*/NOTES.md
-
 # Local Python environment
 .venv/
 __pycache__/

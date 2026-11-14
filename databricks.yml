@@ -1,6 +1,11 @@
 bundle:
   name: ml-deployment-course
 
+sync:
+  # Course material is git-ignored (not published to GitHub) but must still sync to Databricks
+  include:
+    - week*/**
+
 targets:
   dev:
     mode: development
