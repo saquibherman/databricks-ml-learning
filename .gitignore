@@ -1,0 +1,24 @@
+# Databricks Academy course material (copyrighted, not redistributable).
+# Only my own notes per week are published.
+week*/*
+!week*/NOTES.md
+
+# Local Python environment
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Databricks extension / bundle state (machine-specific)
+.databricks/
+
+# Local environment variables (profile name, personal experiment path)
+.env
+
+# MLflow local artifacts (if tracking ever falls back to local)
+mlruns/
+mlartifacts/
+
+# Editor / OS
+.DS_Store
+*.swp

@@ -1,0 +1,10 @@
+bundle:
+  name: ml-deployment-course
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      # Host comes from this ~/.databrickscfg profile (created with `databricks auth login`)
+      profile: azure-ml
