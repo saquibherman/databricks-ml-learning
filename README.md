@@ -5,8 +5,9 @@ serverless compute**. Clone it, run one script, and the notebooks run in your ow
 
 | Week | Course | Notes |
 |------|--------|-------|
-| [week1](week1/) | *Machine Learning Model Deployment* (v2.3.2): batch, pipeline, real-time | [NOTES](week1/NOTES.md) |
+| [week1](week1/) | *Data Preparation for Machine Learning* (v4.0.0): exploring data, imputation, encoding, feature engineering in Unity Catalog | [NOTES](week1/NOTES.md) |
 | [week2](week2/) | *Machine Learning Model Development* (v3.0.2): MLflow tracking, Optuna, Genie Code | [NOTES](week2/NOTES.md) |
+| [week3](week3/) | *Machine Learning Model Deployment* (v2.3.2): batch, pipeline, real-time | [NOTES](week3/NOTES.md) |
 
 ---
 
@@ -20,8 +21,8 @@ serverless compute**. Clone it, run one script, and the notebooks run in your ow
 
   | Marketplace listing | Shared catalog name | Used by |
   |---|---|---|
-  | Telco customer churn | `databricks_telco_customer_dataset` | week1 all, week2 1.4 / 2.3 / 3.2 |
-  | Diabetes health indicators | `databricks_diabetes_health_indicators_dataset` | week1 4.5, week2 1.3 / 2.2 |
+  | Telco customer churn | `databricks_telco_customer_dataset` | week1 all, week2 1.4 / 2.3 / 3.2, week3 all |
+  | Diabetes health indicators | `databricks_diabetes_health_indicators_dataset` | week1 2.6 / 3.2, week2 1.3 / 2.2, week3 4.5 |
   | California housing | `databricks_california_housing_data` | week2 1.2a |
   | Bank loan modelling | `databricks_bank_loan_modelling_dataset` | week2 3.3 |
 
@@ -54,14 +55,18 @@ cd databricks-ml-learning
 
 | Notebook | Result |
 |---|---|
-| week1 2.2 Demo: Batch Deployment | ✅ |
-| week1 3.2 Demo: Pipeline Deployment | ✅ |
-| week1 4.3 / 4.4 Demos: Model Serving | ⚠️ Blocked in the test workspace: endpoint container build could not download packages (see [Troubleshooting](#troubleshooting)) |
+| week1 1.2 Demo: Load and Explore Data | ✅ |
+| week1 2.5 Demo: Data Imputation and Transformation Pipeline | ✅ |
+| week1 2.6 Demo: Build a Feature Engineering Pipeline | ✅ |
+| week1 3.2 Demo: Using Feature Engineering in Unity Catalog | ✅ |
 | week2 1.2a Demo: Supervised Learning | ✅ |
 | week2 1.2b Demo: Unsupervised Learning | ✅ |
 | week2 1.3 Demo: Model Tracking with MLflow | ✅ |
 | week2 2.2 Demo: Hyperparameter Tuning with Optuna | ✅ |
 | week2 3.2 Demo: Model Development with Genie Code | ✅ |
+| week3 2.2 Demo: Batch Deployment | ✅ |
+| week3 3.2 Demo: Pipeline Deployment | ✅ |
+| week3 4.3 / 4.4 Demos: Model Serving | ⚠️ Blocked in the test workspace: endpoint container build could not download packages (see [Troubleshooting](#troubleshooting)) |
 
 Labs contain `<FILL_IN>` exercises and are not expected to run unmodified.
 
@@ -77,21 +82,24 @@ Labs contain `<FILL_IN>` exercises and are not expected to run unmodified.
 ├── .vscode/settings.json # .venv interpreter, notebook working dir, Databricks cell markers
 ├── scripts/
 │   └── set_serverless_env.py   # Pin notebooks to serverless environment v5
-├── week1/                # Machine Learning Model Deployment
+├── week1/                # Data Preparation for Machine Learning
 │   ├── NOTES.md
 │   ├── AGENDA.ipynb
 │   ├── Includes/         # Classroom setup scripts, %run by every notebook
-│   ├── M01_Model_Deployment_Fundamentals/
-│   ├── M02_Batch_Deployment/
-│   ├── M03_Pipeline_Deployment/
-│   └── M04_Real-time_Deployment_and_Online_Stores/
-└── week2/                # Machine Learning Model Development
-    ├── NOTES.md
-    ├── AGENDA.ipynb
-    ├── Includes/
-    ├── M01_Model_Development_Workflow/
-    ├── M02_Hyperparameter_Tuning/
-    └── M03_Agentic_Machine_Learning/
+│   ├── M01_Managing_and_Exploring_Data/
+│   ├── M02_Data_Preparation_and_Feature_Engineering/
+│   └── M03_Feature_Engineering_in_Unity_Catalog/
+├── week2/                # Machine Learning Model Development
+│   ├── NOTES.md, AGENDA.ipynb, Includes/
+│   ├── M01_Model_Development_Workflow/
+│   ├── M02_Hyperparameter_Tuning/
+│   └── M03_Agentic_Machine_Learning/
+└── week3/                # Machine Learning Model Deployment
+    ├── NOTES.md, AGENDA.ipynb, Includes/
+    ├── M01_Model_Deployment_Fundamentals/
+    ├── M02_Batch_Deployment/
+    ├── M03_Pipeline_Deployment/
+    └── M04_Real-time_Deployment_and_Online_Stores/
 ```
 
 ---
@@ -103,21 +111,22 @@ The Academy notebooks expect a prepared lab workspace. These changes make them r
 | Change | Where | Why |
 |---|---|---|
 | `ops.meta` settings table | created by `setup.sh` | `DBAcademyHelper` (`DA`) reads catalog, schema, username and dataset paths from it |
-| Serverless environment v5 in notebook metadata | all `.ipynb` (`scripts/set_serverless_env.py`) | Without it, serverless used environment v1 (Python 3.10) and `%pip install mlflow==3.12.0` ran for 25+ minutes |
+| Serverless environment in notebook metadata (week1: v6, week2/3: v5) | all `.ipynb` (`scripts/set_serverless_env.py`) | Without it, serverless used environment v1 (Python 3.10) and `%pip install mlflow==3.12.0` ran for 25+ minutes |
 | `restartPython()` only on Databricks | `week*/Includes/_common.py` | `dbutils.library` does not exist over Databricks Connect |
-| `dbacademy.` catalog → `DA.catalog_name` | week1 4.3 demo | The `dbacademy` catalog only exists in Academy labs |
+| `dbacademy.` catalog → `DA.catalog_name` | week3 4.3 demo | The `dbacademy` catalog only exists in Academy labs |
 | `/Volumes/dbacademy_*` → Marketplace share paths | week2 `Classroom-Setup-1.1a.py`, `-3.2.py` | Marketplace shares have different catalog names |
-| `.py` source notebooks → `.ipynb`, underscores in names | week2 | Same layout as week1; converted with the workspace's own exporter |
+| `.py` source notebooks → `.ipynb`, underscores in names | week1, week2 | Same layout as week3; converted with the workspace's own exporter |
 
 ### Adding a new week
 
 1. Unzip the Academy download into `weekN/` without its top-level folder.
 2. Rename files and folders to underscores and update the `$./...` links in `AGENDA`.
+   If the zip nests the course in a subfolder (as week1's does), copy that subfolder's contents.
 3. Convert notebooks to `.ipynb` through the workspace:
    `databricks workspace import <tmp>/<nb> --file <nb>.py --format SOURCE --language PYTHON`, then
    `databricks workspace export <tmp>/<nb> --format JUPYTER --file <nb>.ipynb`.
    Keep `Includes/*.py` as `.py` (they are `%run` targets).
-4. `python3 scripts/set_serverless_env.py weekN`, add the `_common.py` guard, fix hard-coded paths,
+4. `python3 scripts/set_serverless_env.py weekN --version <V>` (the version the course's AGENDA asks for), add the `_common.py` guard, fix hard-coded paths,
    and add any new dataset rows to `setup.sh`.
 
 ---
@@ -156,6 +165,6 @@ Rule of thumb: **edit and explore locally, run full demos and labs on Databricks
 
 ## Credits
 
-Course notebooks and setup scripts in `week1/` and `week2/` are from **Databricks Academy**
+Course notebooks and setup scripts in `week1/`–`week3/` are from **Databricks Academy**
 (© 2026 Databricks, Inc. All rights reserved), with the adaptations listed above. Notes, `setup.sh`,
 configuration and scripts are my own.

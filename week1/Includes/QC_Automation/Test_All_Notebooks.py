@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Automated Test Runner — Machine Learning Model Deployment 
+# MAGIC # Automated Test Runner — Data Preparation for Machine Learning 
 # MAGIC
 # MAGIC Creates a **single multi-task Lakeflow Job** for one course, with optional QA checks,
 # MAGIC so the full run is visible in one timeline.

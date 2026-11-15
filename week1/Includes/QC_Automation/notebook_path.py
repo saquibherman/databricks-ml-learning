@@ -10,7 +10,7 @@
 # COMMAND ----------
 
 # Change the course name as per your course name
-COURSE_NAME = "Machine Learning Model Deployment"
+COURSE_NAME = "Data Preparation for Machine Learning"
 RUN_QA_CHECKER = True
 QA_TASK_RELATIVE_PATH = "./qa_content_checker"
 QA_TASK_NAME = "QA Content Checker — Grammar, Deprecated, UI Steps"
@@ -23,70 +23,82 @@ TESTER_EMAILS = [
 
 # Add your lab notebook paths relative from the CourseRunner folder as per your course
 LAB_NOTEBOOKS = [
-    "../../M02_Batch_Deployment/2.3_Lab_Batch_Deployment",
-    "../../M04_Real-time_Deployment_and_Online_Stores/4.5_Lab_Real-time_Deployment_with_Model_Serving",
+    "../../M01_Managing_and_Exploring_Data/1.3_Lab_Load_and_Explore_Data",
+    "../../M02_Data_Preparation_and_Feature_Engineering/2.7_Lab_Build_a_Feature_Engineering_Pipeline",
+    "../../M03_Feature_Engineering_in_Unity_Catalog/3.3_Lab_Feature_Engineering_in_Unity_Catalog",
 ]
 
 # Define the course notebook DAG here so this can be used for job scheduling as per your course
 COURSE_TASKS = [
     {
-        "task_key": "2.2 Demo - Batch Deployment",
-        "name": "2.2 Demo - Batch Deployment",
-        "relative_path": "../../M02_Batch_Deployment/2.2_Demo_Batch_Deployment",
+        "task_key": "1.2_Demo_Load_and_Explore_Data",
+        "name": "1.2_Demo_Load_and_Explore_Data",
+        "relative_path": "../../M01_Managing_and_Exploring_Data/1.2_Demo_Load_and_Explore_Data",
         "depends_on": [],
+        "env_key": "course_01",
+        "use_classic": True,
+    },
+    {
+        "task_key": "1.3_Lab_Load_and_Explore_Data",
+        "depends_on": [
+            {"task_key": "1.2_Demo_Load_and_Explore_Data"},
+        ],
+        "name": "1.3_Lab_Load_and_Explore_Data",
+        "relative_path": "../../M01_Managing_and_Exploring_Data/1.3_Lab_Load_and_Explore_Data",
+        "env_key": "course_01_lab",
+        "use_classic": True,
+    },
+    {
+        "task_key": "2.5_Demo_Data_Imputation_and_Transformation_Pipeline",
+        "depends_on": [
+            {"task_key": "1.3_Lab_Load_and_Explore_Data"},
+        ],
+        "name": "2.5_Demo_Data_Imputation_and_Transformation_Pipeline",
+        "relative_path": "../../M02_Data_Preparation_and_Feature_Engineering/2.5_Demo_Data_Imputation_and_Transformation_Pipeline",
         "env_key": "course_02",
         "use_classic": True,
     },
     {
-        "task_key": "2.3 Lab - Batch Deployment",
+        "task_key": "2.6_Demo_Build_a_Feature_Engineering_Pipeline",
         "depends_on": [
-            {"task_key": "2.2 Demo - Batch Deployment"},
+            {"task_key": "2.5_Demo_Data_Imputation_and_Transformation_Pipeline"},
         ],
-        "name": "2.3 Lab - Batch Deployment",
-        "relative_path": "../../M02_Batch_Deployment/2.3_Lab_Batch_Deployment",
+        "name": "2.6_Demo_Build_a_Feature_Engineering_Pipeline",
+        "relative_path": "../../M02_Data_Preparation_and_Feature_Engineering/2.6_Demo_Build_a_Feature_Engineering_Pipeline",
+        "env_key": "course_02b",
+        "use_classic": True,
+    },
+    {
+        "task_key": "2.7_Lab_Build_a_Feature_Engineering_Pipeline",
+        "depends_on": [
+            {"task_key": "2.6_Demo_Build_a_Feature_Engineering_Pipeline"},
+        ],
+        "name": "2.7_Lab_Build_a_Feature_Engineering_Pipeline",
+        "relative_path": "../../M02_Data_Preparation_and_Feature_Engineering/2.7_Lab_Build_a_Feature_Engineering_Pipeline",
         "env_key": "course_02_lab",
         "use_classic": True,
     },
     {
-        "task_key": "3.2 Demo - Pipeline Deployment",
+        "task_key": "3.2_Demo_Using_Feature_Engineering_in_Unity_Catalog",
         "depends_on": [
-            {"task_key": "2.3 Lab - Batch Deployment"},
+            {"task_key": "2.7_Lab_Build_a_Feature_Engineering_Pipeline"},
         ],
-        "name": "3.2 Demo - Pipeline Deployment",
-        "relative_path": "../../M03_Pipeline_Deployment/3.2_Demo_Pipeline_Deployment",
+        "name": "3.2_Demo_Using_Feature_Engineering_in_Unity_Catalog",
+        "relative_path": "../../M03_Feature_Engineering_in_Unity_Catalog/3.2_Demo_Using_Feature_Engineering_in_Unity_Catalog",
         "env_key": "course_03",
         "use_classic": True,
     },
     {
-        "task_key": "4.3 Demo - Real-time Deployment with Model Serving",
+        "task_key": "3.3_Lab_Feature_Engineering_in_Unity_Catalog",
         "depends_on": [
-            {"task_key": "3.2 Demo - Pipeline Deployment"},
+            {"task_key": "3.2_Demo_Using_Feature_Engineering_in_Unity_Catalog"},
         ],
-        "name": "4.3 Demo - Real-time Deployment with Model Serving",
-        "relative_path": "../../M04_Real-time_Deployment_and_Online_Stores/4.3_Demo_Real-time_Deployment_with_Model_Serving",
-        "env_key": "course_04",
+        "name": "3.3_Lab_Feature_Engineering_in_Unity_Catalog",
+        "relative_path": "../../M03_Feature_Engineering_in_Unity_Catalog/3.3_Lab_Feature_Engineering_in_Unity_Catalog",
+        "env_key": "course_03_lab",
         "use_classic": True,
     },
-    {
-        "task_key": "4.4 Demo - Custom Model Deployment with Model Serving",
-        "depends_on": [
-            {"task_key": "4.3 Demo - Real-time Deployment with Model Serving"},
-        ],
-        "name": "4.4 Demo - Custom Model Deployment with Model Serving",
-        "relative_path": "../../M04_Real-time_Deployment_and_Online_Stores/4.4_Demo_Custom_Model_Deployment_with_Model_Serving",
-        "env_key": "course_04b",
-        "use_classic": True,
-    },
-    {
-        "task_key": "4.5 Lab - Real-time Deployment with Model Serving",
-        "depends_on": [
-            {"task_key": "4.4 Demo - Custom Model Deployment with Model Serving"},
-        ],
-        "name": "4.5 Lab - Real-time Deployment with Model Serving",
-        "relative_path": "../../M04_Real-time_Deployment_and_Online_Stores/4.5_Lab_Real-time_Deployment_with_Model_Serving",
-        "env_key": "course_04_lab",
-        "use_classic": True,
-    },
+
 ]
 
 # COMMAND ----------

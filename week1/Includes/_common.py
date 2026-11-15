@@ -1,6 +1,13 @@
 # Databricks notebook source
-# MAGIC %pip install -U databricks-sdk databricks-feature-engineering mlflow==3.12.0
-# MAGIC %pip install mlflow-skinny[databricks]==3.12.0
+# MAGIC %run ./Compute-Setup
+
+# COMMAND ----------
+
+check_serverless_runtime("6")
+
+# COMMAND ----------
+
+# MAGIC %pip install --quiet -U databricks-sdk
 
 # COMMAND ----------
 
@@ -187,7 +194,7 @@ class DBAcademyHelper(NestedNamespace):
     
     # Perform common lookups via the SDK. For example to find a structure's ID given a name. Example uses:
     # DA.workspace_find("catalogs", "main") -> return SDK structure representing catalog named "main"
-    # DA.workspace_find("cluster_policies", "DBAcademy DLT") -> return structure representing named policy
+    # DA.workspace_find("cluster_policies", "DBAcademy SDP") -> return structure representing named policy
     # Note: for this to work, SDK must have an API named by "item_type" with a "list" api, and it assumes you
     # want to look up based on a "name" element. But in cases all these conditions aren't true, you can use
     # "member" and "api" to tweak behaviour without having to implement your own lookup function. Some examples:
