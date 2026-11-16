@@ -10,6 +10,9 @@ __pycache__/
 # Local environment variables (profile name, personal experiment path)
 .env
 
+# Machine-specific bundle settings (workspace host), written by setup.sh
+databricks.local*.yml
+
 # MLflow local artifacts (if tracking ever falls back to local)
 mlruns/
 mlartifacts/

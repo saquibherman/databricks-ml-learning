@@ -1,6 +1,11 @@
 bundle:
   name: ml-deployment-course
 
+# Machine-specific settings (workspace host), git-ignored. The VS Code Databricks extension
+# needs workspace.host and fails with "Invalid host name" without it.
+include:
+  - databricks.local*.yml
+
 sync:
   # Course material is git-ignored (not published to GitHub) but must still sync to Databricks
   include:
@@ -11,5 +16,6 @@ targets:
     mode: development
     default: true
     workspace:
-      # Host comes from this ~/.databrickscfg profile (created with `databricks auth login`)
+      # Profile in ~/.databrickscfg (created with `databricks auth login`). The workspace host
+      # lives in the git-ignored databricks.local.yml, written by setup.sh.
       profile: azure-ml

@@ -38,7 +38,8 @@ cd databricks-ml-learning
 
 `setup.sh` is safe to re-run. It:
 1. installs the Databricks CLI and `uv` into `~/.local/bin` if missing (no sudo);
-2. logs in to your workspace (OAuth, profile `azure-ml`), asking for the workspace URL once;
+2. logs in to your workspace (OAuth, profile `azure-ml`), asking for the workspace URL once, and writes
+   it to the git-ignored `databricks.local.yml` (the VS Code extension needs it in the bundle);
 3. creates `.venv` (Python 3.12, matching serverless environment v5) with Databricks Connect and MLflow;
 4. creates `<default catalog>.ops.meta`, schema `ml_deployment` and volume `working_dir`, filled with
    **your** username and the datasets it finds;
@@ -85,6 +86,7 @@ Labs contain `<FILL_IN>` exercises and are not expected to run unmodified.
 .
 ├── setup.sh              # One-shot setup (tools, login, .venv, UC bootstrap, .env, sync)
 ├── databricks.yml        # Databricks Asset Bundle: syncs the repo to the workspace
+├── databricks.local.yml  # (git-ignored, written by setup.sh) your workspace host
 ├── .env.example          # Template for .env (setup.sh fills it in)
 ├── .vscode/settings.json # .venv interpreter, notebook working dir, Databricks cell markers
 ├── scripts/
@@ -169,6 +171,7 @@ Rule of thumb: **edit and explore locally, run full demos and labs on Databricks
 | `Metadata table <catalog>.ops.meta not found` | Workspace not bootstrapped | Run `./setup.sh` |
 | `PATH_NOT_FOUND` on `/Volumes/databricks_...` | Marketplace dataset missing | Add it from Marketplace, re-run `./setup.sh` |
 | Serving endpoint: `Container build failed. Cause: user_pip_resolution`, log shows `No matching distribution found for mlflow (from versions: none)` | The endpoint build cannot download packages: workspace serverless network policy / egress control or NCC | Register the model with `mlflow.register_model(..., env_pack="databricks_model_serving")` (done in this repo's serving demos), or ask an account admin to allow PyPI for serverless (Account Console → Security → Networking → Network policies) |
+| VS Code: Databricks sidebar never logs in, setup cell fails with `NameError`; extension log shows `UrlError: Invalid host name` | No `workspace.host` in the bundle | Run `./setup.sh` (writes `databricks.local.yml`), then **Developer: Reload Window** |
 | VS Code: *Databricks Connect disabled* | venv has no `pip` | `uv pip install --python .venv pip` (setup.sh does this) |
 | `ModuleNotFoundError: nbformat` on `%run` | Needed by the extension's `%run` support | `uv pip install --python .venv nbformat` (setup.sh does this) |
 | `%run ../Includes/...` not found locally | Jupyter cwd was the repo root | `jupyter.notebookFileRoot` in `.vscode/settings.json` (included) |
