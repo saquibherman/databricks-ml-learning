@@ -19,6 +19,15 @@ if "DATABRICKS_RUNTIME_VERSION" in os.environ:
 
 # COMMAND ----------
 
+# Run local Python in UTC, like Databricks compute. Via Databricks Connect, timestamps
+# collected from Spark (e.g. DESCRIBE HISTORY) otherwise come back in the machine's
+# local timezone and are read as UTC when passed back (timestampAsOf), shifting them.
+import os, time
+os.environ["TZ"] = "UTC"
+time.tzset()
+
+# COMMAND ----------
+
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.errors.platform import NotFound
 import pyspark.sql.functions as F
