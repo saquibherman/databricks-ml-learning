@@ -126,6 +126,8 @@ LOCAL_PROFILE=$PAT_PROFILE
 databricks current-user me -p "$PAT_PROFILE" >/dev/null 2>&1 || LOCAL_PROFILE=$PROFILE
 sed -e "s#^DATABRICKS_CONFIG_PROFILE=.*#DATABRICKS_CONFIG_PROFILE=$LOCAL_PROFILE#" \
     -e "s#<your-email>#$USER_EMAIL#" .env.example > .env
+# DATABRICKS_AUTH_TYPE=pat only makes sense with a token profile
+[ "$LOCAL_PROFILE" = "$PAT_PROFILE" ] || sed -i '/^DATABRICKS_AUTH_TYPE=/d' .env
 echo "Wrote .env (profile $LOCAL_PROFILE)"
 
 # ---------------------------------------------------------------- 6. sync
