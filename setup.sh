@@ -77,6 +77,7 @@ declare -A SHARES=(
   [cdc_diabetes]=databricks_diabetes_health_indicators_dataset
   [ca_housing]=databricks_california_housing_data
   [banking]=databricks_bank_loan_modelling_dataset
+  [monitoring]=databricks_inference_dataset_for_machine_learning_operations_associate_course
 )
 CATALOGS=$(databricks catalogs list -p "$PROFILE" -o json | python3 -c 'import json,sys;[print(c["name"]) for c in json.load(sys.stdin)]')
 ROWS="('username','$USER_EMAIL'),('catalog_name','$CATALOG'),('schema_name','$SCHEMA'),"
@@ -86,7 +87,7 @@ for key in "${!SHARES[@]}"; do
   share=${SHARES[$key]}
   if grep -qx "$share" <<<"$CATALOGS"; then
     echo "  [ok]      $share"
-    [[ $key == telco || $key == cdc_diabetes ]] && ROWS+=",('paths.datasets.$key','/Volumes/$share/v01'),('datasets.$key','$share')"
+    [[ $key == telco || $key == cdc_diabetes || $key == banking || $key == monitoring ]] && ROWS+=",('paths.datasets.$key','/Volumes/$share/v01'),('datasets.$key','$share')"
   else
     warn "missing $share: add it from Databricks Marketplace (Get instant access), then re-run"
   fi

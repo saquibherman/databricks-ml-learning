@@ -17,3 +17,8 @@ mlartifacts/
 # Editor / OS
 .DS_Store
 *.swp
+
+# Tokens written by week4 "0 - Generate Tokens" notebook
+**/var/credentials.cfg
+**/var/
+**/credentials.py

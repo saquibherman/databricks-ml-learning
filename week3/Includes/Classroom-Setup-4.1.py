@@ -260,12 +260,14 @@ def fit_and_register_model(
             mlflow.log_input(feature_df, "training_features")
             mlflow.log_input(response_df, "training_responses")
             input_example = X.iloc[[0]]
-            mlflow.sklearn.log_model(
+            model_info = mlflow.sklearn.log_model(
                 sk_model=clf,
                 artifact_path="ml_model",
                 input_example=input_example,
-                registered_model_name=model_name_,
             )
+            # env_pack ships the notebook's Python environment inside the model, so the Model Serving
+            # build does not need to download packages (blocked in some workspaces' serverless egress).
+            mlflow.register_model(model_info.model_uri, model_name_, env_pack="databricks_model_serving")
         # Assign alias if provided
         if model_alias:
             time.sleep(8)  # Shorter wait time before updating alias
